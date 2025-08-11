@@ -1,101 +1,124 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { APIUrl, handleError, handleSuccess } from '../utils';
 
 function Signup() {
-
-    const [signupInfo, setSignupInfo] = useState({
-        name: '',
-        email: '',
-        password: ''
-    })
-
+    const [signupInfo, setSignupInfo] = useState({ name: '', email: '', password: '' });
     const navigate = useNavigate();
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        console.log(name, value);
-        const copySignupInfo = { ...signupInfo };
-        copySignupInfo[name] = value;
-        setSignupInfo(copySignupInfo);
-    }
+        setSignupInfo(prev => ({ ...prev, [name]: value }));
+    };
 
     const handleSignup = async (e) => {
         e.preventDefault();
         const { name, email, password } = signupInfo;
-        if (!name || !email || !password) {
-            return handleError('name, email and password are required')
-        }
+        if (!name || !email || !password) return handleError('Name, email and password are required');
+
         try {
             const url = `${APIUrl}/auth/signup`;
             const response = await fetch(url, {
                 method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(signupInfo)
             });
             const result = await response.json();
             const { success, message, error } = result;
             if (success) {
                 handleSuccess(message);
-                setTimeout(() => {
-                    navigate('/login')
-                }, 1000)
+                setTimeout(() => navigate('/login'), 1000);
             } else if (error) {
-                const details = error?.details[0].message;
-                handleError(details);
-            } else if (!success) {
+                handleError(error?.details[0]?.message || 'Error occurred');
+            } else {
                 handleError(message);
             }
-            console.log(result);
         } catch (err) {
-            handleError(err);
+            handleError(err.message);
         }
-    }
+    };
+
     return (
-        <div className='container'>
-            <h1>Signup</h1>
-            <form onSubmit={handleSignup}>
-                <div>
-                    <label htmlFor='name'>Name</label>
+        <div style={containerStyle}>
+            <h1 style={headerStyle}>MoneyMate – Expense Tracker</h1>
+            <div style={cardStyle}>
+                <h2 style={{ marginBottom: '20px', textAlign: 'center' }}>Signup</h2>
+                <form onSubmit={handleSignup}>
+                    <label>Name</label>
                     <input
+                        style={inputStyle}
                         onChange={handleChange}
                         type='text'
                         name='name'
-                        autoFocus
                         placeholder='Enter your name...'
                         value={signupInfo.name}
                     />
-                </div>
-                <div>
-                    <label htmlFor='email'>Email</label>
+                    <label>Email</label>
                     <input
+                        style={inputStyle}
                         onChange={handleChange}
                         type='email'
                         name='email'
                         placeholder='Enter your email...'
                         value={signupInfo.email}
                     />
-                </div>
-                <div>
-                    <label htmlFor='password'>Password</label>
+                    <label>Password</label>
                     <input
+                        style={inputStyle}
                         onChange={handleChange}
                         type='password'
                         name='password'
                         placeholder='Enter your password...'
                         value={signupInfo.password}
                     />
-                </div>
-                <button type='submit'>Signup</button>
-                <span>Already have an account ?
-                    <Link to="/login">Login</Link>
-                </span>
-            </form>
+                    <button type='submit' style={buttonStyle}>Signup</button>
+                    <p style={{ textAlign: 'center', marginTop: '10px' }}>
+                        Already have an account? <Link to="/login">Login</Link>
+                    </p>
+                </form>
+            </div>
             <ToastContainer />
         </div>
-    )
+    );
 }
 
-export default Signup
+// Reuse styles from Login
+const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px'
+};
+const headerStyle = {
+    marginBottom: '30px',
+    fontSize: '1.8rem',
+    color: '#2c3e50'
+};
+const cardStyle = {
+    background: '#fff',
+    padding: '30px',
+    borderRadius: '10px',
+    boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
+    width: '100%',
+    maxWidth: '400px'
+};
+const inputStyle = {
+    width: '100%',
+    padding: '10px',
+    marginBottom: '15px',
+    borderRadius: '5px',
+    border: '1px solid #ccc'
+};
+const buttonStyle = {
+    width: '100%',
+    background: '#1976d2',
+    color: 'white',
+    padding: '10px',
+    border: 'none',
+    borderRadius: '5px',
+    cursor: 'pointer',
+    fontSize: '1rem'
+};
+
+export default Signup;

@@ -1,68 +1,70 @@
-
 *,
 ::before,
-::after{
+::after {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
-label{
+label {
   font-size: 20px;
 }
 
 html,
-body{
+body {
   height: 100vh;
   width: 100vw;
+  font-family: 'Poppins', sans-serif;
 }
 
-body{
+body {
   display: flex;
   justify-content: center;
-  /* align-items: center; */
+  align-items: center;
+  background-color: #f7f9fc;
 }
 
-.container{
+.container {
   background-color: #FFF;
   padding: 32px 48px;
-  border-radius: 10px;
+  border-radius: 12px;
   width: 100%;
   max-width: 400px;
-  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 1);
+  box-shadow: 8px 8px 24px 0px rgba(66, 68, 90, 0.15);
 }
 
-.container > h1{
+.container > h1 {
   margin-bottom: 20px;
+  font-family: 'Poppins', sans-serif;
 }
 
-.container > form{
+.container > form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-.container div{
+.container div {
   display: flex;
   flex-direction: column;
 }
 
-.container input{
+.container input {
   width: 100%;
-  font-size: 20px;
+  font-size: 16px;
   padding: 10px;
   border: none;
   outline: none;
   border-bottom: 1px solid black;
 }
 
-.container input::placeholder{
+.container input::placeholder {
   font-size: 12px;
   font-style: italic;
 }
 
-button{
-  background-color: purple;
+button {
+  background-color: #4a90e2;
   border: none;
   font-size: 15px;
   color: white;
@@ -70,16 +72,20 @@ button{
   padding: 10px;
   cursor: pointer;
   margin: 10px 0;
+  font-family: 'Poppins', sans-serif;
 }
 
-.user-section{
+button:hover {
+  background-color: #357ABD;
+}
+
+.user-section {
   display: flex;
   justify-content: space-between;
 }
 
-/* Minimal styling for the expense list */
 .expense-list {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 .expense-item {
@@ -112,7 +118,7 @@ button{
   justify-content: space-between;
   align-items: center;
   margin: 20px 0;
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 18px;
 }
 
@@ -121,7 +127,35 @@ button{
   font-weight: bold;
 }
 
-.expense-amount{
+.expense-amount {
   color: #c0392b;
   font-weight: bold;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  padding: 12px 24px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.header h2 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.header .logout-btn {
+  background-color: #ff6b6b;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+}
+
+.header .logout-btn:hover {
+  background-color: #e63946;
 }
